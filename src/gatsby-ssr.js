@@ -9,14 +9,16 @@ exports.onRenderBody = (
     if (pluginOptions && pluginOptions.siteUrl) {
         const parsedUrl = url.parse(pluginOptions.siteUrl)
         const myUrl = `${pluginOptions.siteUrl}${pathname}`
-        if (
-            pluginOptions.excludedPaths.length > 0 &&
+        
+        if( pluginOptions.excludedPaths && pluginOptions.excludedPaths.length > 0 &&
             pathname &&
-            !pluginOptions.excludedPaths.findIndex((_path) =>
+            pluginOptions.excludedPaths.findIndex((_path) =>
                 new Minimatch(pathname).match(_path)
-            ) < 0
-        ) {
-            setHeadComponents([
+            ) < 0){
+            return 
+        }
+        
+         setHeadComponents([
                 <link
                     rel="canonical"
                     key={myUrl}
@@ -24,7 +26,6 @@ exports.onRenderBody = (
                     data-baseprotocol={parsedUrl.protocol}
                     data-basehost={parsedUrl.host}
                 />
-            ])
-        }
+         ])
     }
 }
