@@ -12,7 +12,7 @@ exports.onRenderBody = (
         if (
             pluginOptions.excludedPaths.length > 0 &&
             pathname &&
-            pluginOptions.excludedPaths.findIndex((_path) =>
+            !pluginOptions.excludedPaths.findIndex((_path) =>
                 new Minimatch(pathname).match(_path)
             ) < 0
         ) {
