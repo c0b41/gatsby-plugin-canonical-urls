@@ -1,14 +1,30 @@
-exports.onRouteUpdate = ({ location }) => {
-    const domElem = document.querySelector(`link[rel='canonical']`)
-    var existingValue = domElem.getAttribute(`href`)
-    var baseProtocol = domElem.getAttribute(`data-baseProtocol`)
-    var baseHost = domElem.getAttribute(`data-baseHost`)
-    if (existingValue && baseProtocol && baseHost) {
-        domElem.setAttribute(
-            `href`,
-            `${baseProtocol}//${baseHost}${location.pathname}${location.search}${
-            location.hash
-            }`
-        )
+import React from 'react'
+import url from 'url'
+import { Minimatch } from 'minimatch'
+
+exports.onRenderBody = (
+    { setHeadComponents, pathname = `/` },
+    pluginOptions
+) => {
+    if (pluginOptions && pluginOptions.siteUrl) {
+        const parsedUrl = url.parse(pluginOptions.siteUrl)
+        const myUrl = `${pluginOptions.siteUrl}${pathname}`
+        if (
+            pluginOptions.excludedPaths.length > 0 &&
+            pathname &&
+            pluginOptions.excludedPaths.findIndex((_path) =>
+                new Minimatch(pathname).match(_path)
+            ) < 0
+        ) {
+            setHeadComponents([
+                <link
+                    rel="canonical"
+                    key={myUrl}
+                    href={myUrl}
+                    data-baseprotocol={parsedUrl.protocol}
+                    data-basehost={parsedUrl.host}
+                />
+            ])
+        }
     }
 }
