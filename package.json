@@ -1,7 +1,7 @@
 {
     "name": "@c0b41/gatsby-plugin-canonical-urls",
     "description": "Add canonical links to HTML pages Gatsby generates.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "dependencies": {
         "@babel/runtime": "^7.0.0",
         "minimatch": "^3.0.4"
