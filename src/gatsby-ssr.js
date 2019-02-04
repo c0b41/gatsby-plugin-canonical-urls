@@ -1,6 +1,6 @@
 import React from 'react'
 import url from 'url'
-import { Minimatch } from 'minimatch'
+import Minimatch from 'minimatch'
 
 exports.onRenderBody = (
     { setHeadComponents, pathname = `/` },
@@ -10,12 +10,15 @@ exports.onRenderBody = (
         const parsedUrl = url.parse(pluginOptions.siteUrl)
         const myUrl = `${pluginOptions.siteUrl}${pathname}`
         
-        if( pluginOptions.excludedPaths && pluginOptions.excludedPaths.length > 0 &&
-            pathname &&
-            pluginOptions.excludedPaths.findIndex((_path) =>
-                new Minimatch(pathname).match(_path)
-            ) > 0){
-            return 
+        if (
+          pluginOptions.excludedPaths &&
+          pluginOptions.excludedPaths.length > 0 &&
+          pathname &&
+          pluginOptions.excludedPaths.findIndex((_path) =>
+            Minimatch(pathname, _path)
+          ) > 0
+        ) {
+          return
         }
         
          setHeadComponents([
