@@ -16,7 +16,7 @@ exports.onRenderBody = (
           pathname &&
           pluginOptions.excludedPaths.findIndex((_path) =>
             Minimatch(pathname, _path)
-          ) > 0
+          ) >= 0
         ) {
           return
         }
